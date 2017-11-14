@@ -1,7 +1,7 @@
 {
   "name": "devjobs",
   "version": "1.0.0",
-  "description": "",
+  "description": "(1) Clone the repository",
   "main": "server.js",
   "scripts": {
     "dev": "npm-run-all dev:server",
@@ -12,9 +12,20 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.16.2",
+    "fs-extra": "^4.0.2",
     "npm-run-all": "4.1.2"
   },
   "devDependencies": {
     "nodemon": "1.12.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ValeriaMeneses/project--devjobs.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/ValeriaMeneses/project--devjobs/issues"
+  },
+  "homepage": "https://github.com/ValeriaMeneses/project--devjobs#readme"
 }
