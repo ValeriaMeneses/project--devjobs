@@ -3,8 +3,16 @@ const express = require('express');
 const fs = require('fs-extra');
 const ejs = require('ejs');
 
+const connectToDb = require('./src/databases/dbConnect.js');
+const dbConfigObj = require('./knexfile.js');
+
 const app = express();
 
+const appDb = connectToDb(dbConfigObj.development);
+
+app.locals.db = appDb;
+
+// Configure EJS template engine
 app.engine('ejs', ejs.renderFile);
 app.set('views engine', 'ejs');
 app.set('views', `${__dirname}/src/views`);
