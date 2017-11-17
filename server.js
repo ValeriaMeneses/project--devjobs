@@ -1,7 +1,7 @@
-
 const express = require('express');
 const fs = require('fs-extra');
 const ejs = require('ejs');
+const { Model } = require('objection');
 
 const connectToDb = require('./src/databases/dbConnect.js');
 const dbConfigObj = require('./knexfile.js');
@@ -9,6 +9,8 @@ const dbConfigObj = require('./knexfile.js');
 const app = express();
 
 const appDb = connectToDb(dbConfigObj.development);
+
+Model.knex(appDb);
 
 app.locals.db = appDb;
 
