@@ -105,14 +105,35 @@ function updateCompany(req, res) {
     });
 }
 
-function deleteCompanyById(req, res) {
+function deleteCompanyAndRelatedJobsById(req, res) {
   Company
     .query()
-    .deleteById(req.params.id)
+    .where('id', req.params.id)
+    .first()
+    .returning('*')
+    .then(companyToDelete => {
+      return companyToDelete
+        .$relatedQuery('job')
+        .delete()
+        .where('companyId', companyToDelete.id)
+        .returning('*')
+        .then(jobsDeleted => {
+          return companyToDelete
+        })
+        .catch(error => {
+          return res.send(error).status(500);
+        });
+    })
+    .then(company => {
+      return Company
+        .query()
+        .deleteById(company.id)
+        .then(() => {
+          return company;
+        })
+    })
     .then(companyDeleted => {
-      return res.json({
-        rowsDeleted: companyDeleted
-      }).status(200);
+      res.json(companyDeleted).status(200);
     })
     .catch(error => {
       return res.send(error).status(500);
@@ -131,6 +152,6 @@ apiRouter
     .get('/companies/:id', getCompanyById)
     .post('/companies', createCompany)
     .put('/companies/:id', updateCompany)
-    .delete('/companies/:id', deleteCompanyById);
+    .delete('/companies/:id', deleteCompanyAndRelatedJobsById);
 
 module.exports = apiRouter;
