@@ -4,7 +4,7 @@ exports.up = function(knex, Promise) {
     .schema
     .table('company', table => {
       table
-        .integer('id')
+        .increments('id')
         .unsigned()
         .references('companyId')
         .inTable('job');

@@ -2,6 +2,7 @@ const express = require('express');
 const fs = require('fs-extra');
 const ejs = require('ejs');
 const { Model } = require('objection');
+const bodyParser = require('body-parser');
 
 const connectToDb = require('./src/databases/dbConnect.js');
 const dbConfigObj = require('./knexfile.js');
@@ -18,6 +19,10 @@ app.locals.db = appDb;
 app.engine('ejs', ejs.renderFile);
 app.set('views engine', 'ejs');
 app.set('views', `${__dirname}/src/views`);
+
+// JSON parse configuration
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 const pageRouter = require('./src/routers/pageRouter.js');
 const apiRouter = require('./src/routers/apiRouter.js');
